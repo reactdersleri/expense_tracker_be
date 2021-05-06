@@ -16,11 +16,15 @@ server.use("/categories", categoryRouter);
 server.use("/records", recordRouter);
 
 server.get("/", (req, res) => {
-  res.status(200).json(req.headers);
+  res
+    .status(200)
+    .send(
+      `<a href="https://documenter.getpostman.com/view/11347698/TzRPiote" target="_blank">API Documentation</a>`
+    );
 });
 
 const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, () => {
-  console.log(`Port ${PORT} istekler dinleniyor...`);
+  console.log(`Port ${PORT} üzerinden istekler dinleniyor...`);
 });
