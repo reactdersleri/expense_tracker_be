@@ -2,6 +2,9 @@ const db = require("./dbConfig");
 
 module.exports = {
   findTypes,
+  addType,
+  updateType,
+  deleteType,
   findCategories,
   findCategoryById,
   addCategory,
@@ -16,6 +19,21 @@ module.exports = {
 
 function findTypes() {
   return db("type");
+}
+
+async function addType(newType) {
+  const [id] = await db("type").insert(newType, "id");
+  return db("type").where({ id }).first();
+}
+
+async function updateType(updatedType, id) {
+  const updated = await db("type").update(updatedType).where({ id });
+  if (updated) return db("type").where({ id }).first();
+  else throw new Error();
+}
+
+async function deleteType(id) {
+  return await db("type").del().where({ id });
 }
 
 async function findCategories() {
