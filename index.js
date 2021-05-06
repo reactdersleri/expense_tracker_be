@@ -10,6 +10,8 @@ server.use("/types", typeRouter);
 server.use("/categories", categoryRouter);
 server.use("/records", recordRouter);
 
-server.listen(5000, () => {
-  console.log("Port 5000 istekler dinleniyor...");
+const PORT = process.env.PORT || 5000;
+
+server.listen(PORT, () => {
+  console.log(`Port ${PORT} istekler dinleniyor...`);
 });
