@@ -47,9 +47,9 @@ router.put("/:id", async (req, res) => {
   const { id: updateId } = req.params;
   const updatedRecord = req.body;
 
-  if (!updatedRecord.title || !updatedRecord.category_id || !updatedRecord.amount) {
+  if (typeof updatedRecord.title === "string" && updatedRecord.title === "") {
     return res.status(400).json({
-      error: "You must provide a title, a category, and an amount for update",
+      error: "Title cannot be empty",
     });
   }
 
