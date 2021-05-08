@@ -5,7 +5,7 @@ const Record = require("../data/models/recordModel");
 router.get("/", async (req, res) => {
   try {
     const records = await Record.find();
-    res.status(200).json(records);
+    res.status(200).json(records.map(recordMapper));
   } catch (error) {
     console.log({ error });
     res.status(500).json({ error: "Error fetching records" });
@@ -34,7 +34,7 @@ router.post("/", async (req, res) => {
   } else {
     try {
       const record = await Record.add(newRecord);
-      res.status(201).json(record);
+      res.status(201).json(recordMapper(record));
     } catch (error) {
       console.log({ error });
       res.status(500).json({ error: "Error adding a new record" });
