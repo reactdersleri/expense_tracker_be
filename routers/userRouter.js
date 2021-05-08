@@ -18,10 +18,13 @@ router.post("/register", async (req, res) => {
     res.status(400).json({ error: "Username and email are required." });
   }
 
-  const hashedPassword = bcrypt.hashSync(userData.password, rounds);
+  userData.password = bcrypt.hashSync(userData.password, rounds);
 
-  userData.password = hashedPassword;
   try {
+    const uExists = await User.findByUsername(userData.username);
+    if (uExists) res.status(400).json({ error: "Username is not available" });
+    const eExists = await User.findByUsername(userData.email);
+    if (eExists) res.status(400).json({ error: "Email is used by someone else" });
     const added = await User.addUser(userData);
     res.status(201).json({
       id: added.id,

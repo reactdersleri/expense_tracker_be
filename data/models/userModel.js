@@ -1,5 +1,6 @@
 module.exports = {
   findByUsername,
+  findByEmail,
   addUser,
 };
 
@@ -7,6 +8,10 @@ const db = require("../dbConfig");
 
 function findByUsername(username) {
   return db("user").where({ username }).first();
+}
+
+function findByEmail(email) {
+  return db("user").where({ email }).first();
 }
 
 function addUser(user) {

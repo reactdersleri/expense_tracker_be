@@ -1,30 +1,28 @@
 const db = require("../dbConfig");
 
 module.exports = {
-  findRecords,
-  findRecordById,
-  addRecord,
-  updateRecord,
-  deleteRecord,
+  find,
+  findById,
+  add,
+  update,
+  remove,
 };
 
-async function findRecords() {
+async function find() {
   return db("record as r")
     .join("category as c", "r.category_id", "c.id")
-    .join("type as t", "t.id", "c.type_id")
     .select(
       "r.id",
       "r.title",
       "r.amount",
       "c.name as categoryName",
       "c.id as categoryId",
-      "t.id as typeId",
-      "t.name as typeName",
-      "t.color as typeColor"
+      "c.type as type",
+      "c.color as color"
     );
 }
 
-async function findRecordById(id) {
+async function findById(id) {
   const found = await db("record as r")
     .join("category as c", "r.category_id", "c.id")
     .join("type as t", "t.id", "c.type_id")
@@ -44,7 +42,7 @@ async function findRecordById(id) {
   else throw new Error();
 }
 
-async function addRecord(record) {
+async function add(record) {
   const [id] = await db("record").insert(record, "id");
 
   return db("record as r")
@@ -64,7 +62,7 @@ async function addRecord(record) {
     .first();
 }
 
-async function updateRecord(record, id) {
+async function update(record, id) {
   const updated = await db("record").update(record).where({ id });
 
   if (updated)
@@ -86,6 +84,6 @@ async function updateRecord(record, id) {
   else throw new Error();
 }
 
-async function deleteRecord(id) {
+async function remove(id) {
   return db("record").del().where({ id });
 }

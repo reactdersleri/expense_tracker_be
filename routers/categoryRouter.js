@@ -22,6 +22,12 @@ router.post("/", async (req, res) => {
 
   if (!newCategory.name) {
     res.status(400).json({ error: "Name is required" });
+  } else if (
+    newCategory.type &&
+    newCategory.type !== "expense" &&
+    newCategory.type !== "income"
+  ) {
+    res.status(400).json({ error: "Type must be 'expense' or 'income'" });
   } else {
     try {
       const category = await Category.add(newCategory);
