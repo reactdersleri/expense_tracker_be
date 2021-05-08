@@ -55,9 +55,9 @@ router.put("/:id", async (req, res) => {
 
   try {
     const record = await Record.update(updatedRecord, updateId);
-
     res.status(200).json(recordMapper(record));
   } catch (error) {
+    console.log({ error });
     res.status(500).json({ error: "Error updating record" });
   }
 });
