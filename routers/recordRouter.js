@@ -1,6 +1,7 @@
 const router = require("express").Router();
 
 const Record = require("../data/models/recordModel");
+const recordMapper = require("../utils/recordMapper");
 
 router.get("/", async (req, res) => {
   try {
