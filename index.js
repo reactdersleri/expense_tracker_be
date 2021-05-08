@@ -3,18 +3,18 @@ const cors = require("cors");
 const helmet = require("helmet");
 
 const server = express();
+const authenticator = require("./middleware/authenticator");
 
-const typeRouter = require("./routers/typeRouter");
 const categoryRouter = require("./routers/categoryRouter");
 const recordRouter = require("./routers/recordRouter");
+const userRouter = require("./routers/userRouter");
 
 server.use(express.json());
 server.use(cors());
 server.use(helmet());
-server.use("/types", typeRouter);
-server.use("/categories", categoryRouter);
+server.use("/categories", authenticator, categoryRouter);
 server.use("/records", recordRouter);
-
+server.use("/users", userRouter);
 server.get("/", (req, res) => {
   res
     .status(200)
