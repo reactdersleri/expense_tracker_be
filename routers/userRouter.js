@@ -48,7 +48,7 @@ router.post("/login", async (req, res) => {
       const token = generateToken(user);
       res.status(200).json({ message: `Login successful!`, token });
     } else {
-      res.status(401).json({ errorMessage: "Wrong password!" });
+      res.status(401).json({ error: "Wrong password!" });
     }
   } catch {
     res.status(500).json({ error: "Login failed!" });

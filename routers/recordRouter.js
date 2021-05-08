@@ -69,7 +69,7 @@ router.delete("/:id", async (req, res) => {
     if (deleted) {
       res.status(204).end();
     } else {
-      res.status(400).json({ message: "No such record found" });
+      res.status(400).json({ error: "No record found" });
     }
   } catch {
     res.status(500).json({ error: "Error deleting record" });
