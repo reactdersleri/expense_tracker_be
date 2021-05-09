@@ -8,12 +8,12 @@ router.post("/register", async (req, res, next) => {
   const userData = req.body;
   const rounds = process.env.HASH_ROUNDS || 12;
 
-  if (userData.password.length < 6) {
-    next([400, "Password must be at least 6 characters."]);
+  if (!userData.username || !userData.password || !userData.email) {
+    next([400, "Username and email are required."]);
   }
 
-  if (!userData.username || !userData.email) {
-    next([400, "Username and email are required."]);
+  if (userData.password && userData.password.length < 6) {
+    next([400, "Password must be at least 6 characters."]);
   }
 
   userData.password = bcrypt.hashSync(userData.password, rounds);
