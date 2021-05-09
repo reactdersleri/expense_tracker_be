@@ -10,7 +10,7 @@ router.get("/", async (req, res, next) => {
     res.status(200).json(categories.map((cat) => ({ ...cat, user_id: undefined })));
   } catch (error) {
     console.log({ error });
-    next([500, "Error fetching countries"]);
+    next([500, "Error fetching categories"]);
   }
 });
 
