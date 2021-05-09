@@ -34,6 +34,8 @@ router.post("/login", async (req, res, next) => {
   const userData = req.body;
   const { username, password } = userData;
 
+  if (password.length < 6) next([400, "Password must be at least 6 characters."]);
+
   try {
     const user = await User.findByUsername(username);
     if (bcrypt.compareSync(password, user.password)) {
