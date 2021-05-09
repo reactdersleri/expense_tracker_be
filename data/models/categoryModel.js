@@ -9,7 +9,7 @@ module.exports = {
 };
 
 async function find(user_id) {
-  return db("category").where({ user_id });
+  return db("categorsy").where({ user_id });
 }
 
 async function findById(id) {
