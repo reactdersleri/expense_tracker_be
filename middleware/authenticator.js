@@ -8,14 +8,11 @@ module.exports = (req, res, next) => {
 
   if (token) {
     jwt.verify(token, secret, (error, decodedToken) => {
-      if (error) {
-        res.status(401).json({ error: "Invalid token" });
-      } else {
+      if (error) next([401, "Invalid token"]);
+      else {
         req.decodedToken = decodedToken;
         next();
       }
     });
-  } else {
-    res.status(400).json({ error: "Token is missing" });
-  }
+  } else next([400, "Token is missing"]);
 };
