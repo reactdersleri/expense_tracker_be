@@ -7,6 +7,7 @@ const generateToken = require("../utils/generateToken");
 router.post("/register", async (req, res, next) => {
   const userData = req.body;
   const rounds = process.env.HASH_ROUNDS || 12;
+  console.log({ userData });
 
   if (!userData.username || !userData.password || !userData.email) {
     next([400, "Username and email are required."]);
@@ -20,8 +21,8 @@ router.post("/register", async (req, res, next) => {
 
   try {
     const uExists = await User.findByUsername(userData.username);
-    if (uExists) next([400, "Username is not available"]);
-    const eExists = await User.findByUsername(userData.email);
+    if (uExists) next([400, "Username is used by someone else"]);
+    const eExists = await User.findByEmail(userData.email);
     if (eExists) next([400, "Email is used by someone else"]);
     const added = await User.addUser(userData);
     res.status(201).json(added);
@@ -38,6 +39,7 @@ router.post("/login", async (req, res, next) => {
 
   try {
     const user = await User.findByUsername(username);
+    if (!user) return next([400, "User does not exist"]);
     if (bcrypt.compareSync(password, user.password)) {
       const token = generateToken(user);
       res.status(200).json({ message: `Login successful!`, token });
