@@ -6,7 +6,7 @@ const generateToken = require("../utils/generateToken");
 
 router.post("/register", async (req, res, next) => {
   const userData = req.body;
-  const rounds = process.env.HASH_ROUNDS || 12;
+  const rounds = Number(process.env.HASH_ROUNDS) || 12;
 
   if (!userData.username || !userData.password || !userData.email) {
     return next([400, "Username and email are required."]);
@@ -16,13 +16,14 @@ router.post("/register", async (req, res, next) => {
     return next([400, "Password must be at least 6 characters."]);
   }
 
-  userData.password = bcrypt.hashSync(userData.password, rounds);
-
   try {
     const uExists = await User.findByUsername(userData.username);
     if (uExists) return next([400, "Username is used by someone else"]);
+
     const eExists = await User.findByEmail(userData.email);
     if (eExists) return next([400, "Email is used by someone else"]);
+
+    userData.password = bcrypt.hashSync(userData.password, rounds);
     const added = await User.addUser(userData);
     res.status(201).json(added);
   } catch {
