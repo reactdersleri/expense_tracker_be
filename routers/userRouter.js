@@ -8,7 +8,7 @@ router.post("/register", async (req, res, next) => {
   const userData = req.body;
   // const rounds = Number(process.env.HASH_ROUNDS) || 12;
   const rounds = "12";
-  console.log("process.env.HASH_ROUNDS", process.env.HASH_ROUNDS);
+  console.log("process.env.HASH_ROUNDS", typeof process.env.HASH_ROUNDS);
 
   if (!userData.username || !userData.password || !userData.email) {
     return next([400, "Username and email are required."]);
