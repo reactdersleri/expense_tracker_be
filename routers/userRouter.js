@@ -25,11 +25,11 @@ router.post("/register", async (req, res, next) => {
 
     userData.password = bcrypt.hashSync(userData.password, rounds);
 
-    const added = await User.addUser(userData);
-    delete added.password;
-    res.status(201).json(added);
+    await User.addUser(userData);
+
+    res.status(201).json({ message: "User registration is successful." });
   } catch {
-    next([500, "User could not be registered"]);
+    next([500, "User could not be registered."]);
   }
 });
 
@@ -45,7 +45,16 @@ router.post("/login", async (req, res, next) => {
     if (!user) return next([400, "User does not exist"]);
     if (bcrypt.compareSync(password, user.password)) {
       const token = generateToken(user);
-      res.status(200).json({ message: `Login successful!`, token });
+      const { username, email, full_name } = user;
+      res
+        .status(200)
+        .json({
+          message: `Login successful!`,
+          username,
+          email,
+          full_name,
+          token,
+        });
     } else {
       next([401, "Wrong password!"]);
     }
