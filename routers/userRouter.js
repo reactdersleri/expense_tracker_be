@@ -24,6 +24,7 @@ router.post("/register", async (req, res, next) => {
     if (eExists) return next([400, "Email is used by someone else"]);
 
     userData.password = bcrypt.hashSync(userData.password, rounds);
+
     const added = await User.addUser(userData);
     delete added.password;
     res.status(201).json(added);
