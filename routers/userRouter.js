@@ -6,9 +6,7 @@ const generateToken = require("../utils/generateToken");
 
 router.post("/register", async (req, res, next) => {
   const userData = req.body;
-  // const rounds = Number(process.env.HASH_ROUNDS) || 12;
-  const rounds = 8;
-  console.log("process.env.HASH_ROUNDS", typeof process.env.HASH_ROUNDS);
+  const rounds = process.env.HASH_ROUNDS || 12;
 
   if (!userData.username || !userData.password || !userData.email) {
     return next([400, "Username and email are required."]);
@@ -21,7 +19,8 @@ router.post("/register", async (req, res, next) => {
   try {
     userData.password = bcrypt.hashSync(userData.password, rounds);
   } catch (error) {
-    console.log("error rounds", error);
+    console.log("typeof rounds", typeof rounds);
+    console.log({ error });
   }
 
   try {
