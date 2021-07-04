@@ -16,12 +16,7 @@ router.post("/register", async (req, res, next) => {
     return next([400, "Password must be at least 6 characters."]);
   }
 
-  try {
-    userData.password = bcrypt.hashSync(userData.password, rounds);
-  } catch (error) {
-    console.log("typeof rounds", typeof rounds);
-    console.log({ error });
-  }
+  userData.password = bcrypt.hashSync(userData.password, rounds);
 
   try {
     const uExists = await User.findByUsername(userData.username);
