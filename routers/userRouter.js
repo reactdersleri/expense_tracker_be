@@ -6,7 +6,7 @@ const generateToken = require("../utils/generateToken");
 
 router.post("/register", async (req, res, next) => {
   const userData = req.body;
-  const rounds = process.env.HASH_ROUNDS || 12;
+  const rounds = Number(process.env.HASH_ROUNDS) || 12;
 
   if (!userData.username || !userData.password || !userData.email) {
     return next([400, "Username and email are required."]);
