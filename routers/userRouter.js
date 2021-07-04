@@ -7,7 +7,7 @@ const generateToken = require("../utils/generateToken");
 router.post("/register", async (req, res, next) => {
   const userData = req.body;
   // const rounds = Number(process.env.HASH_ROUNDS) || 12;
-  const rounds = "12";
+  const rounds = "8";
   console.log("process.env.HASH_ROUNDS", typeof process.env.HASH_ROUNDS);
 
   if (!userData.username || !userData.password || !userData.email) {
