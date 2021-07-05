@@ -1,4 +1,8 @@
-## Documentation:
+## API URL
+
+[https://expensetracker-be.herokuapp.com](https://expensetracker-be.herokuapp.com)
+
+## Documentation
 
 [https://documenter.getpostman.com/view/11347698/TzRPiote](https://documenter.getpostman.com/view/11347698/TzRPiote)
 
