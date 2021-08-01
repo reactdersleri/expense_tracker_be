@@ -7,7 +7,6 @@ function recordMapper({ id, title, amount, createdAt, updatedAt, ...rest }) {
     amount,
     createdAt,
     updatedAt,
-    ...rest,
     category: {
       id: rest.categoryId,
       name: rest.categoryName,
