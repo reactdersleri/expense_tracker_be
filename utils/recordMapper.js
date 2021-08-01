@@ -1,10 +1,13 @@
 module.exports = recordMapper;
 
-function recordMapper({ id, title, amount, ...rest }) {
+function recordMapper({ id, title, amount, createdAt, updatedAt, ...rest }) {
   return {
     id,
     title,
     amount,
+    createdAt,
+    updatedAt,
+    ...rest,
     category: {
       id: rest.categoryId,
       name: rest.categoryName,

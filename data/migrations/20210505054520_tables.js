@@ -35,7 +35,28 @@ exports.up = function (knex) {
         .references("user.id")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-    });
+      table.timestamp("createdAt").defaultTo(knex.fn.now());
+      table.timestamp("updatedAt").defaultTo(knex.fn.now());
+    })
+    .raw(
+      `
+    CREATE OR REPLACE FUNCTION update_updated_at_column()
+    RETURNS TRIGGER AS $$
+    BEGIN
+     NEW."updated_at"=now(); 
+     RETURN NEW;
+    END;
+    $$ language 'plpgsql';
+  `
+    )
+    .raw(
+      `
+    CREATE TRIGGER update_user_updated_at BEFORE UPDATE
+    ON ?? FOR EACH ROW EXECUTE PROCEDURE 
+    update_updated_at_column();
+  `,
+      ["record"]
+    );
 };
 
 exports.down = function (knex) {
