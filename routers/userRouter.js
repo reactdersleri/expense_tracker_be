@@ -10,6 +10,7 @@ router.post("/is_logged_in", authenticator, async (req, res) => {
   const user = await User.findById(userId);
   user.message = "Login Successful!";
   delete user.password;
+  delete user.id;
   user.token = req.decodedToken.token;
   res.status(200).json(user);
 });
