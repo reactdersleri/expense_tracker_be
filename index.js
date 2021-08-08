@@ -16,10 +16,13 @@ server.use(helmet());
 server.use("/categories", authenticator, categoryRouter);
 server.use("/records", authenticator, recordRouter);
 server.use("/users", userRouter);
+
 server.get("/", (req, res) => {
   res
     .status(200)
-    .send(`<a href="https://documenter.getpostman.com/view/11347698/TzRPiote" target="_blank">API Documentation</a>`);
+    .send(
+      `<a href="https://documenter.getpostman.com/view/11347698/TzRPiote" target="_blank">API Documentation</a>`
+    );
 });
 server.use(catchAllErrorHandler);
 

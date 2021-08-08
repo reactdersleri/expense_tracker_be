@@ -2,7 +2,14 @@ const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 
 const User = require("../data/models/userModel");
+const authenticator = require("../middleware/authenticator");
 const generateToken = require("../utils/generateToken");
+
+router.post("/is_logged_in", authenticator, async (req, res) => {
+  const userId = req.decodedToken.id;
+  const user = await User.findById(userId);
+  res.status(200).json(user);
+});
 
 router.post("/register", async (req, res, next) => {
   const userData = req.body;
@@ -46,15 +53,13 @@ router.post("/login", async (req, res, next) => {
     if (bcrypt.compareSync(password, user.password)) {
       const token = generateToken(user);
       const { username, email, full_name } = user;
-      res
-        .status(200)
-        .json({
-          message: `Login successful!`,
-          username,
-          email,
-          full_name,
-          token,
-        });
+      res.status(200).json({
+        message: `Login successful!`,
+        username,
+        email,
+        full_name,
+        token,
+      });
     } else {
       next([401, "Wrong password!"]);
     }
