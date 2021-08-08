@@ -11,6 +11,7 @@ module.exports = (req, res, next) => {
       if (error) next([401, "Invalid token"]);
       else {
         req.decodedToken = decodedToken;
+        req.token = token;
         next();
       }
     });

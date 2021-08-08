@@ -8,6 +8,9 @@ const generateToken = require("../utils/generateToken");
 router.post("/is_logged_in", authenticator, async (req, res) => {
   const userId = req.decodedToken.id;
   const user = await User.findById(userId);
+  user.message = "Login Successful!";
+  delete user.password;
+  user.token = req.decodedToken.token;
   res.status(200).json(user);
 });
 
